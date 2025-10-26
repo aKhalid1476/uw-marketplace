@@ -119,10 +119,7 @@ export const listingStatusSchema = z.enum([
  * Price validation schema
  */
 export const priceSchema = z
-  .number({
-    required_error: 'Price is required',
-    invalid_type_error: 'Price must be a number',
-  })
+  .number()
   .positive('Price must be greater than 0')
   .max(99999.99, 'Price must be less than $100,000')
   .refine(
@@ -400,7 +397,7 @@ export function validateOrThrow<T>(schema: z.ZodSchema<T>, data: unknown): T {
 export function getValidationErrors(error: z.ZodError): Record<string, string> {
   const errors: Record<string, string> = {}
 
-  error.errors.forEach((err) => {
+  error.issues.forEach((err: any) => {
     const path = err.path.join('.')
     errors[path] = err.message
   })
