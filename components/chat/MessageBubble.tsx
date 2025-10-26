@@ -35,11 +35,14 @@ export function MessageBubble({
       .slice(0, 2)
   }
 
+  // Type assertion for messages with sender data
+  const msg = message as any
+
   const senderName = isOwnMessage
     ? 'You'
-    : (message.sender as any)?.full_name || 'Unknown'
+    : msg.sender?.full_name || 'Unknown'
 
-  const senderPicture = (message.sender as any)?.profile_picture_url
+  const senderPicture = msg.sender?.profile_picture_url
 
   return (
     <div
