@@ -104,10 +104,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Mark the verification code as used
-    await (supabase
+    await supabase
       .from('verification_codes')
-      .update({ used: true } as any)
-      .eq('id', record.id) as any)
+      .update({ used: true } as never)
+      .eq('id', record.id)
 
     // Create auth token
     const user = newUser as any
