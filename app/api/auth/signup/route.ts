@@ -57,7 +57,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if code is expired
-    const expiresAt = new Date(verificationRecord.expires_at)
+    const record = verificationRecord as any
+    const expiresAt = new Date(record.expires_at)
     if (expiresAt < new Date()) {
       return NextResponse.json(
         { success: false, error: 'Verification code has expired' },
@@ -90,7 +91,7 @@ export async function POST(request: NextRequest) {
         password_hash: passwordHash,
         full_name: full_name || null,
         email_verified: true,
-      })
+      } as any)
       .select()
       .single()
 
@@ -103,19 +104,20 @@ export async function POST(request: NextRequest) {
     }
 
     // Mark the verification code as used
-    await supabase
+    await (supabase
       .from('verification_codes')
-      .update({ used: true })
-      .eq('id', verificationRecord.id)
+      .update({ used: true } as any)
+      .eq('id', record.id) as any)
 
     // Create auth token
+    const user = newUser as any
     const token = await createAuthToken({
-      id: newUser.id,
-      email: newUser.email,
-      full_name: newUser.full_name,
-      profile_picture_url: newUser.profile_picture_url,
-      created_at: newUser.created_at,
-      updated_at: newUser.updated_at,
+      id: user.id,
+      email: user.email,
+      full_name: user.full_name,
+      profile_picture_url: user.profile_picture_url,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
     })
 
     // Set cookie
@@ -131,10 +133,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       user: {
-        id: newUser.id,
-        email: newUser.email,
-        full_name: newUser.full_name,
-        profile_picture_url: newUser.profile_picture_url,
+        id: user.id,
+        email: user.email,
+        full_name: user.full_name,
+        profile_picture_url: user.profile_picture_url,
       },
     })
   } catch (error) {
