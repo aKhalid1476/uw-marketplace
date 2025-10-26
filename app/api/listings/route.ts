@@ -157,7 +157,7 @@ export async function POST(request: NextRequest) {
         category,
         image_urls: image_urls || [],
         status: 'active',
-      })
+      } as any)
       .select()
       .single()
 
