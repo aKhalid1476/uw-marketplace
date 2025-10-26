@@ -1,0 +1,85 @@
+{
+  "success": true,
+  "listings": [
+    {
+      "id": "1",
+      "title": "MacBook Pro 2020 - Perfect for CS Students",
+      "price": 899,
+      "category": "Electronics",
+      "image_url": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&h=500&fit=crop",
+      "created_at": "2025-10-20T10:00:00Z",
+      "seller_name": "Alice Chen",
+      "status": "active"
+    },
+    {
+      "id": "2",
+      "title": "iPhone 13 Pro - Excellent Condition",
+      "price": 650,
+      "category": "Electronics",
+      "image_url": "https://images.unsplash.com/photo-1592286927505-2c3f1b0f5fb4?w=500&h=500&fit=crop",
+      "created_at": "2025-10-19T14:30:00Z",
+      "seller_name": "Bob Smith",
+      "status": "active"
+    },
+    {
+      "id": "3",
+      "title": "IKEA Desk - Great for Dorm Room",
+      "price": 75,
+      "category": "Furniture",
+      "image_url": "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=500&h=500&fit=crop",
+      "created_at": "2025-10-18T09:15:00Z",
+      "seller_name": "Carol Wang",
+      "status": "active"
+    },
+    {
+      "id": "4",
+      "title": "CS 246 Object-Oriented Software Development Textbook",
+      "price": 35,
+      "category": "Books",
+      "image_url": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=500&h=500&fit=crop",
+      "created_at": "2025-10-17T16:45:00Z",
+      "seller_name": "David Lee",
+      "status": "active"
+    },
+    {
+      "id": "5",
+      "title": "Canada Goose Winter Jacket - Size M",
+      "price": 250,
+      "category": "Clothing",
+      "image_url": "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&h=500&fit=crop",
+      "created_at": "2025-10-16T11:20:00Z",
+      "seller_name": "Emily Zhang",
+      "status": "active"
+    },
+    {
+      "id": "6",
+      "title": "Nintendo Switch + 3 Games",
+      "price": 280,
+      "category": "Electronics",
+      "image_url": "https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=500&h=500&fit=crop",
+      "created_at": "2025-10-15T13:00:00Z",
+      "seller_name": "Alice Chen",
+      "status": "active"
+    },
+    {
+      "id": "7",
+      "title": "Ergonomic Office Chair",
+      "price": 120,
+      "category": "Furniture",
+      "image_url": "https://images.unsplash.com/photo-1580480055273-228ff5388ef8?w=500&h=500&fit=crop",
+      "created_at": "2025-10-14T10:30:00Z",
+      "seller_name": "Bob Smith",
+      "status": "active"
+    },
+    {
+      "id": "8",
+      "title": "Math 239 Introduction to Combinatorics Notes",
+      "price": 15,
+      "category": "Books",
+      "image_url": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=500&h=500&fit=crop",
+      "created_at": "2025-10-13T15:45:00Z",
+      "seller_name": "Carol Wang",
+      "status": "active"
+    }
+  ]
+}

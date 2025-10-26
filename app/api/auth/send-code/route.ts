@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json<ApiResponse>(
         {
           success: false,
-          error: validation.error.errors[0]?.message || 'Invalid email address',
+          error: validation.error.issues[0]?.message || 'Invalid email address',
         },
         { status: 400 }
       )
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
         code,
         expires_at: expiresAt.toISOString(),
         used: false,
-      })
+      } as any)
 
     if (insertError) {
       console.error('Database error:', insertError)
@@ -79,30 +79,35 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // DEVELOPMENT MODE: Log code to console instead of sending email
-    // In production, uncomment the email sending code below
-    console.log('===========================================')
-    console.log('📧 VERIFICATION CODE FOR:', email)
-    console.log('🔑 CODE:', code)
-    console.log('⏰ EXPIRES AT:', expiresAt.toLocaleString())
-    console.log('===========================================')
-
-    // Send verification email (commented out for development)
-    // Uncomment this in production when you have a verified domain on Resend
-    /*
+    // Send verification email via Resend
+    console.log('[SEND-CODE] Attempting to send verification email to:', email)
     const emailResult = await sendVerificationEmail(email, code)
 
     if (!emailResult.success) {
-      console.error('Email sending failed:', emailResult.error)
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          error: 'Failed to send verification email. Please try again.',
-        },
-        { status: 500 }
-      )
+      console.error('[SEND-CODE] Email sending failed:', emailResult.error)
+
+      // Fallback: Log to console for development
+      console.log('===========================================')
+      console.log('📧 VERIFICATION CODE FOR:', email)
+      console.log('🔑 CODE:', code)
+      console.log('⏰ EXPIRES AT:', expiresAt.toLocaleString())
+      console.log('===========================================')
+      console.log('💡 TIP: Check your Resend API key and verify your email address in Resend dashboard')
+
+      // Still return success so user can proceed with development
+      // In production, you'd return an error here
+      if (process.env.NODE_ENV === 'production') {
+        return NextResponse.json<ApiResponse>(
+          {
+            success: false,
+            error: 'Failed to send verification email. Please try again.',
+          },
+          { status: 500 }
+        )
+      }
+    } else {
+      console.log('[SEND-CODE] Email sent successfully!')
     }
-    */
 
     // Record attempt for rate limiting
     recordAttempt(email)

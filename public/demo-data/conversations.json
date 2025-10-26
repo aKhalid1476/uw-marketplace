@@ -1,0 +1,37 @@
+{
+  "success": true,
+  "data": {
+    "conversations": [
+      {
+        "id": "conv-1",
+        "listing_id": "1",
+        "listing_title": "MacBook Pro 2020 - Perfect for CS Students",
+        "listing_image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&h=500&fit=crop",
+        "listing_status": "active",
+        "other_user_id": "user-456",
+        "other_user_name": "Bob Smith",
+        "other_user_picture": null,
+        "last_message": "Sure! I can meet you at DP tomorrow at 2pm",
+        "last_message_time": "2025-10-23T15:30:00Z",
+        "last_message_sender_id": "user-456",
+        "is_read": false,
+        "unread_count": 1
+      },
+      {
+        "id": "conv-2",
+        "listing_id": "3",
+        "listing_title": "IKEA Desk - Great for Dorm Room",
+        "listing_image": "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=500&h=500&fit=crop",
+        "listing_status": "active",
+        "other_user_id": "user-789",
+        "other_user_name": "Carol Wang",
+        "other_user_picture": null,
+        "last_message": "Is this still available?",
+        "last_message_time": "2025-10-22T10:15:00Z",
+        "last_message_sender_id": "user-123",
+        "is_read": true,
+        "unread_count": 0
+      }
+    ]
+  }
+}

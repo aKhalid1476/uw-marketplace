@@ -1,0 +1,83 @@
+{
+  "success": true,
+  "data": {
+    "messages": [
+      {
+        "id": "msg-1",
+        "listing_id": "1",
+        "sender_id": "user-456",
+        "receiver_id": "user-123",
+        "content": "Hi! Is this MacBook still available?",
+        "read": true,
+        "created_at": "2025-10-23T14:00:00Z",
+        "sender": {
+          "id": "user-456",
+          "full_name": "Bob Smith",
+          "profile_picture_url": null
+        },
+        "receiver": {
+          "id": "user-123",
+          "full_name": "Alice Chen",
+          "profile_picture_url": null
+        }
+      },
+      {
+        "id": "msg-2",
+        "listing_id": "1",
+        "sender_id": "user-123",
+        "receiver_id": "user-456",
+        "content": "Yes it is! Are you interested?",
+        "read": true,
+        "created_at": "2025-10-23T14:15:00Z",
+        "sender": {
+          "id": "user-123",
+          "full_name": "Alice Chen",
+          "profile_picture_url": null
+        },
+        "receiver": {
+          "id": "user-456",
+          "full_name": "Bob Smith",
+          "profile_picture_url": null
+        }
+      },
+      {
+        "id": "msg-3",
+        "listing_id": "1",
+        "sender_id": "user-456",
+        "receiver_id": "user-123",
+        "content": "Definitely! Can we meet on campus to check it out?",
+        "read": true,
+        "created_at": "2025-10-23T14:20:00Z",
+        "sender": {
+          "id": "user-456",
+          "full_name": "Bob Smith",
+          "profile_picture_url": null
+        },
+        "receiver": {
+          "id": "user-123",
+          "full_name": "Alice Chen",
+          "profile_picture_url": null
+        }
+      },
+      {
+        "id": "msg-4",
+        "listing_id": "1",
+        "sender_id": "user-123",
+        "receiver_id": "user-456",
+        "content": "Sure! I can meet you at DP tomorrow at 2pm",
+        "read": false,
+        "created_at": "2025-10-23T15:30:00Z",
+        "sender": {
+          "id": "user-123",
+          "full_name": "Alice Chen",
+          "profile_picture_url": null
+        },
+        "receiver": {
+          "id": "user-456",
+          "full_name": "Bob Smith",
+          "profile_picture_url": null
+        }
+      }
+    ]
+  }
+}

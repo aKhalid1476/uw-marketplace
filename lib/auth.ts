@@ -63,10 +63,14 @@ export async function sendVerificationEmail(
   code: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
+    // Use Resend's testing domain for development
+    // Change to your custom domain in production (e.g., 'UW Marketplace <noreply@uwmarketplace.com>')
+    const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev'
+
     const { data, error } = await resend.emails.send({
-      from: 'UW Marketplace <noreply@uwmarketplace.com>',
+      from: fromEmail,
       to: email,
-      subject: 'Your Verification Code',
+      subject: 'UW Marketplace - Your Verification Code',
       html: sendVerificationCodeEmail(code),
     })
 

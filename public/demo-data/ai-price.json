@@ -1,0 +1,8 @@
+{
+  "success": true,
+  "data": {
+    "price": 899,
+    "reasoning": "Based on current marketplace trends for 2020 MacBook Pros in the Waterloo area, similar models are selling between $850-950. This price is competitive for the UWaterloo student market while accounting for the device's age and condition."
+  },
+  "message": "Price suggested successfully"
+}
