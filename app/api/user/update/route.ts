@@ -7,7 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { verifyAuthToken } from '@/lib/auth'
+import { verifyToken } from '@/lib/auth'
 import { createServerClient } from '@/lib/supabase/server'
 
 // Validation schema
@@ -27,7 +27,7 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const payload = await verifyAuthToken(token)
+    const payload = await verifyToken(token)
     if (!payload) {
       return NextResponse.json(
         { success: false, error: 'Invalid or expired token' },
