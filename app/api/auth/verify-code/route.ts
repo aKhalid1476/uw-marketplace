@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json<ApiResponse>(
         {
           success: false,
-          error: validation.error.errors[0]?.message || 'Invalid request data',
+          error: validation.error.issues[0]?.message || 'Invalid request data',
         },
         { status: 400 }
       )
@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const verificationCode = verificationCodes[0]
+    const verificationCode = verificationCodes[0] as any
 
     // Check if code is expired
     if (isCodeExpired(verificationCode.expires_at)) {
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
     // Mark code as used
     const { error: updateError } = await supabase
       .from('verification_codes')
-      .update({ used: true })
+      .update({ used: true } as never)
       .eq('id', verificationCode.id)
 
     if (updateError) {
@@ -109,7 +109,7 @@ export async function POST(request: NextRequest) {
 
       const { error: updateUserError } = await supabase
         .from('users')
-        .update({ updated_at: new Date().toISOString() })
+        .update({ updated_at: new Date().toISOString() } as never)
         .eq('id', user.id)
 
       if (updateUserError) {
@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
           email,
           full_name: null,
           profile_picture_url: null,
-        })
+        } as any)
         .select()
         .single()
 
