@@ -81,7 +81,7 @@ export async function GET(request: NextRequest) {
     // Mark unread messages from other user as read
     const { error: updateError } = await supabase
       .from('messages')
-      .update({ read: true })
+      .update({ read: true } as never)
       .eq('listing_id', listingId)
       .eq('sender_id', otherUserId)
       .eq('receiver_id', userId)
@@ -138,7 +138,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json<ApiResponse>(
         {
           success: false,
-          error: validation.error.errors[0]?.message || 'Invalid request data',
+          error: validation.error.issues[0]?.message || 'Invalid request data',
         },
         { status: 400 }
       )
@@ -175,7 +175,7 @@ export async function POST(request: NextRequest) {
         receiver_id,
         content: content.trim(),
         read: false,
-      })
+      } as any)
       .select(`
         *,
         sender:users!messages_sender_id_fkey(id, full_name, profile_picture_url),
