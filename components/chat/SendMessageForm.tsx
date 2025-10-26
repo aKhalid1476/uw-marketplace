@@ -28,7 +28,7 @@ export function SendMessageForm({
   const [message, setMessage] = useState('')
   const [sending, setSending] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const typingTimeoutRef = useRef<NodeJS.Timeout>()
+  const typingTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
 
   // Handle typing indicator
   const handleInput = (value: string) => {
