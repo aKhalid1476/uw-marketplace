@@ -63,7 +63,7 @@ async function apiRequest(
 ): Promise<{ success: boolean; data?: any; error?: string; status: number }> {
   try {
     const url = `${BASE_URL}${endpoint}`
-    const headers: HeadersInit = {
+    const headers: any = {
       'Content-Type': 'application/json',
       ...(options.headers || {}),
     }
