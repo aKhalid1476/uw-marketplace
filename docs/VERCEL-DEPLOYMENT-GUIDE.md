@@ -48,6 +48,14 @@ Click **"Configure Project"** to move to environment variables.
 
 ### Step 4: Add Environment Variables
 
+**IMPORTANT:** Add a `SEED_SECRET` environment variable for database seeding:
+
+```
+SEED_SECRET=your-random-secret-here-make-it-long-and-secure
+```
+
+Then add all other required environment variables:
+
 This is the most important step! Add all your environment variables:
 
 #### Required Variables
@@ -141,11 +149,44 @@ If you need to update environment variables later:
 
 ---
 
+## 🌱 Seeding the Database (Optional but Recommended)
+
+To populate your deployed app with sample data for demo purposes:
+
+### Option 1: API Endpoint (Easiest)
+
+1. After deployment, visit this URL in your browser:
+   ```
+   https://your-app.vercel.app/api/seed?secret=YOUR_SEED_SECRET
+   ```
+   (Replace `YOUR_SEED_SECRET` with the value you set in environment variables)
+
+2. You should see a success response with:
+   - Number of users created
+   - Number of listings created
+   - Sample login credentials
+
+3. **Sample Login:**
+   - Email: `alice.chen@uwaterloo.ca`
+   - Password: `password123`
+
+### Option 2: Local Script (Advanced)
+
+Run the seed script locally against production database:
+
+```bash
+npm run seed
+```
+
+**⚠️ Warning:** Only seed once to avoid duplicate data!
+
+---
+
 ## 🧪 Testing Your Deployment
 
 ### Test Checklist
 
-After deployment, test these features:
+After deployment (and optional seeding), test these features:
 
 - [ ] **Homepage loads** (visit your URL)
 - [ ] **Sign up works** (try creating an account)
