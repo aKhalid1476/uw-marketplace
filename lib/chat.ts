@@ -55,16 +55,12 @@ export async function getConversations(userId: string): Promise<MessageThread[]>
           id: conversationKey,
           listing_id: message.listing_id,
           listing_title: message.listing?.title || 'Deleted Listing',
-          sender_id: message.sender_id,
-          receiver_id: message.receiver_id,
-          content: message.content,
-          read: message.read,
-          created_at: message.created_at,
-          sender_name: message.sender?.full_name,
-          receiver_name: message.receiver?.full_name,
           other_user_id: otherUser.id,
           other_user_name: otherUser.full_name,
           other_user_picture: otherUser.profile_picture_url,
+          last_message: message.content,
+          last_message_time: message.created_at,
+          unread_count: message.sender_id === userId ? 0 : (message.read ? 0 : 1),
         })
       }
     })
@@ -127,7 +123,7 @@ export async function sendMessage(
         receiver_id: receiverId,
         content: content.trim(),
         read: false,
-      })
+      } as any)
       .select()
       .single()
 
@@ -155,7 +151,7 @@ export async function markMessagesAsRead(
   try {
     const { error } = await supabase
       .from('messages')
-      .update({ read: true })
+      .update({ read: true } as never)
       .eq('listing_id', listingId)
       .eq('receiver_id', userId)
       .eq('read', false)
