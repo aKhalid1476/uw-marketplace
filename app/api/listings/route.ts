@@ -103,9 +103,12 @@ export async function GET(request: NextRequest) {
 // POST - Create a new listing
 export async function POST(request: NextRequest) {
   try {
+    console.log('[CREATE-LISTING] Request received')
+
     // Verify authentication
     const token = request.cookies.get('auth_token')?.value
     if (!token) {
+      console.log('[CREATE-LISTING] No auth token found')
       return NextResponse.json(
         { success: false, error: 'Authentication required' },
         { status: 401 }
@@ -114,17 +117,21 @@ export async function POST(request: NextRequest) {
 
     const payload = await verifyToken(token)
     if (!payload) {
+      console.log('[CREATE-LISTING] Invalid token')
       return NextResponse.json(
         { success: false, error: 'Invalid token' },
         { status: 401 }
       )
     }
 
+    console.log('[CREATE-LISTING] User authenticated, userId:', payload.userId)
+
     // Parse and validate request body
     const body = await request.json()
     const validationResult = createListingSchema.safeParse(body)
 
     if (!validationResult.success) {
+      console.log('[CREATE-LISTING] Validation failed:', validationResult.error.flatten())
       return NextResponse.json(
         {
           success: false,
@@ -136,6 +143,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { title, description, price, category, image_urls } = validationResult.data
+    console.log('[CREATE-LISTING] Creating listing:', { title, price, category, imageCount: image_urls?.length || 0 })
 
     // Create listing in database
     const supabase = createServerClient()
@@ -154,16 +162,20 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (createError) {
-      console.error('Failed to create listing:', createError)
+      console.error('[CREATE-LISTING] Database error:', createError)
       return NextResponse.json(
         { success: false, error: 'Failed to create listing' },
         { status: 500 }
       )
     }
 
+    console.log('[CREATE-LISTING] Listing created successfully, id:', (listing as any)?.id)
+
     return NextResponse.json({
       success: true,
-      listing,
+      data: {
+        listing,
+      },
     })
   } catch (error) {
     console.error('Create listing error:', error)

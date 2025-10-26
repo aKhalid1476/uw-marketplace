@@ -1,183 +1,266 @@
-# UW Marketplace
+# UW Marketplace 🎓🛍️
 
-A modern marketplace application built with Next.js 14, TypeScript, and Tailwind CSS.
+A modern, AI-powered marketplace exclusively for University of Waterloo students. Buy and sell items within the campus community with intelligent pricing suggestions, automated descriptions, and real-time messaging.
 
-## Overview
+![Next.js](https://img.shields.io/badge/Next.js-16.0-black?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)
+![Supabase](https://img.shields.io/badge/Supabase-2.0-green?logo=supabase)
+![Anthropic](https://img.shields.io/badge/Claude-AI-purple)
 
-UW Marketplace is a full-stack web application that provides a platform for buying and selling items. Built with modern technologies and best practices, it offers a seamless user experience with real-time features and AI-powered capabilities.
+## ✨ Features
 
-## Tech Stack
+### 🤖 AI-Powered Features
+- **Smart Description Generation**: Upload an item photo and get an AI-generated, compelling description using Claude Vision API
+- **Intelligent Pricing**: AI suggests optimal prices based on historical marketplace data and item details
+- **Image Analysis**: Advanced computer vision to understand and describe your items accurately
 
-### Core
-- **Next.js 14** - React framework with App Router
-- **TypeScript** - Type-safe development
-- **Tailwind CSS** - Utility-first styling
-- **shadcn/ui** - High-quality UI components
+### 📱 Core Marketplace Features
+- **Secure Authentication**: Email verification with JWT-based auth system
+- **Real-time Chat**: Built-in messaging system for buyer-seller communication
+- **Advanced Search & Filters**: Find exactly what you need by category, price, or keywords
+- **User Profiles**: Track your listings, view stats, and manage your marketplace presence
+- **Price History Tracking**: Transparent pricing trends for informed decisions
 
-### Backend & Services
-- **Supabase** - Database and authentication
-- **Anthropic Claude** - AI-powered features
-- **Resend** - Email delivery service
+### 🎨 Modern User Experience
+- **Responsive Design**: Seamless experience across desktop, tablet, and mobile
+- **Toast Notifications**: Real-time feedback for all user actions
+- **Loading States**: Skeleton loaders and smooth transitions
+- **Error Handling**: Friendly error messages with recovery options
+- **Accessibility**: Full keyboard navigation and screen reader support
 
-### Utilities
-- **Zod** - Schema validation
-- **date-fns** - Date manipulation
-- **lucide-react** - Icon library
+### 🔐 Security & Privacy
+- **UWaterloo Email Only**: Restricted to @uwaterloo.ca email addresses
+- **Password Hashing**: Secure bcrypt password storage
+- **JWT Tokens**: httpOnly cookies for session management
+- **Row Level Security**: Database-level access control
 
-## Project Structure
+## 🚀 Tech Stack
 
-```
-uw-marketplace/
-├── app/                    # Next.js App Router pages
-│   ├── api/               # API routes
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Home page
-├── components/            # React components
-│   └── ui/               # shadcn/ui components
-├── lib/                   # Utility functions
-│   └── utils.ts          # Helper utilities
-├── types/                 # TypeScript type definitions
-├── public/               # Static assets
-└── .env.local           # Environment variables (not in git)
-```
+- **Frontend**: Next.js 16, React 19, TypeScript, Tailwind CSS
+- **Backend**: Next.js API Routes, Supabase (PostgreSQL)
+- **AI/ML**: Anthropic Claude Sonnet 4.5 (Vision API)
+- **Authentication**: Custom JWT + bcrypt
+- **Email**: Resend API
+- **Real-time**: Supabase Realtime
+- **Deployment**: Vercel (recommended)
 
-## Getting Started
+## 📋 Prerequisites
 
-### Prerequisites
+- Node.js 18+ and npm
+- Supabase account (free tier works)
+- Anthropic API key (for AI features)
+- Resend API key (for email verification)
 
-- Node.js 18+ installed
-- npm, yarn, pnpm, or bun package manager
-- Git for version control
+## 🛠️ Setup Instructions
 
-### Installation
+### 1. Clone the Repository
 
-1. Clone the repository:
 ```bash
 git clone <your-repo-url>
 cd uw-marketplace
-```
-
-2. Install dependencies:
-```bash
 npm install
-# or
-yarn install
-# or
-pnpm install
 ```
 
-3. Set up environment variables:
+### 2. Environment Variables
 
-Copy the `.env.local` file and fill in your actual API keys:
-
-```env
-# Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url_here
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key_here
-
-# Anthropic API Configuration
-ANTHROPIC_API_KEY=your_anthropic_api_key_here
-
-# Resend Email Configuration
-RESEND_API_KEY=your_resend_api_key_here
-```
-
-### Getting API Keys
-
-- **Supabase**: Sign up at [supabase.com](https://supabase.com) and create a new project
-- **Anthropic**: Get your API key from [console.anthropic.com](https://console.anthropic.com)
-- **Resend**: Sign up at [resend.com](https://resend.com) to get your API key
-
-### Development
-
-Run the development server:
+Create a `.env.local` file in the root directory:
 
 ```bash
+cp .env.example .env.local
+```
+
+Fill in all required environment variables (see `.env.example` for details).
+
+### 3. Database Setup
+
+1. Go to your [Supabase Dashboard](https://app.supabase.com)
+2. Create a new project
+3. Go to SQL Editor and run `lib/supabase/schema.sql`
+4. Copy your project URL and keys to `.env.local`
+
+### 4. Get API Keys
+
+**Anthropic (Claude AI)**
+1. Sign up at [console.anthropic.com](https://console.anthropic.com)
+2. Create an API key
+3. Add to `.env.local` as `ANTHROPIC_API_KEY`
+
+**Resend (Email)**
+1. Sign up at [resend.com](https://resend.com)
+2. Get your API key
+3. Add to `.env.local` as `RESEND_API_KEY`
+
+### 5. Run Locally
+
+```bash
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+
+# Open http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
-
-### Building for Production
-
-Create an optimized production build:
+### 6. Seed Demo Data (Optional)
 
 ```bash
-npm run build
-npm run start
+npm run seed
 ```
 
-## Available Scripts
+This creates 5 sample users, 30 listings, and sample conversations. See `scripts/seed-instructions.md` for details.
 
-- `npm run dev` - Start development server
-- `npm run build` - Create production build
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint for code quality
+**Demo Login:**
+- Email: `alice.chen@uwaterloo.ca`
+- Password: `password123`
 
-## UI Components
-
-The project includes the following shadcn/ui components:
-
-- Button
-- Input
-- Card
-- Dialog
-- Textarea
-- Badge
-- Avatar
-- Separator
-
-To add more components:
+## 📦 Available Scripts
 
 ```bash
-npx shadcn@latest add [component-name]
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+npm run type-check   # Run TypeScript compiler
+npm run seed         # Seed database with demo data
 ```
 
-## Learn More
+## 🌐 Deployment
 
-### Documentation
-- [Next.js Documentation](https://nextjs.org/docs)
-- [TypeScript Documentation](https://www.typescriptlang.org/docs)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [shadcn/ui Documentation](https://ui.shadcn.com)
-- [Supabase Documentation](https://supabase.com/docs)
-- [Anthropic Documentation](https://docs.anthropic.com)
-
-### Tutorials
-- [Next.js Learn](https://nextjs.org/learn) - Interactive Next.js tutorial
-- [Supabase Tutorial](https://supabase.com/docs/guides/getting-started)
-
-## Deployment
-
-### Vercel (Recommended)
-
-The easiest way to deploy is using [Vercel](https://vercel.com):
+### Deploy to Vercel (Recommended)
 
 1. Push your code to GitHub
-2. Import your repository in Vercel
-3. Add your environment variables
+2. Import project in [Vercel Dashboard](https://vercel.com)
+3. Add environment variables in Vercel settings
 4. Deploy!
 
-For detailed instructions, see the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying).
+See `docs/DEPLOYMENT.md` for detailed deployment instructions.
 
-### Other Platforms
+## 📁 Project Structure
 
-You can also deploy to:
-- AWS
-- Google Cloud Platform
-- Azure
-- Railway
-- Render
+```
+uw-marketplace/
+├── app/                    # Next.js app directory
+│   ├── api/               # API routes
+│   │   ├── auth/         # Authentication endpoints
+│   │   ├── listings/     # Listings CRUD
+│   │   ├── chat/         # Messaging endpoints
+│   │   └── ai/           # AI feature endpoints
+│   ├── browse/           # Browse listings page
+│   ├── chat/             # Chat interface
+│   ├── listing/          # Listing detail pages
+│   ├── listings/         # Listing management
+│   ├── login/            # Login page
+│   ├── signup/           # Signup flow
+│   └── profile/          # User profile
+├── components/            # React components
+│   ├── ui/               # Reusable UI components
+│   ├── layout/           # Layout components
+│   ├── listings/         # Listing components
+│   └── chat/             # Chat components
+├── lib/                   # Utility libraries
+│   ├── supabase/         # Supabase client & schema
+│   ├── anthropic.ts      # Claude AI integration
+│   └── auth.ts           # Auth utilities
+├── scripts/              # Database scripts
+│   └── seed.ts           # Demo data seeder
+└── docs/                 # Documentation
+    ├── DEPLOYMENT.md     # Deployment guide
+    └── DEMO-SCRIPT.md    # Demo presentation guide
+```
 
-## Contributing
+## 🎯 Key Features Demo
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+### 1. AI-Powered Listing Creation
+1. Click "Sell" → "Create Listing"
+2. Upload an item photo
+3. Click "AI Generate" for instant description
+4. Select category → AI suggests optimal price
+5. Submit listing
 
-## License
+### 2. Real-time Chat
+1. Browse listings
+2. Click "Contact Seller" on any listing
+3. Send message instantly
+4. Seller receives notification
+5. Real-time conversation
 
-This project is licensed under the MIT License.
+### 3. Smart Search
+1. Go to Browse page
+2. Filter by category (Electronics, Books, etc.)
+3. Search by keywords
+4. View price history trends
+
+## 🔧 Configuration
+
+### Environment Variables
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL | ✅ |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonymous key | ✅ |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key | ✅ |
+| `ANTHROPIC_API_KEY` | Claude AI API key | ✅ |
+| `RESEND_API_KEY` | Email service API key | ✅ |
+| `JWT_SECRET` | JWT signing secret (32+ chars) | ✅ |
+
+## 🐛 Troubleshooting
+
+### "Table not found" errors
+- Run the SQL schema in Supabase SQL Editor
+- Check that all tables are created
+
+### AI features not working
+- Verify `ANTHROPIC_API_KEY` is set correctly
+- Check API usage limits in Anthropic dashboard
+- Ensure image is under 5MB
+
+### Email verification not sending
+- Verify `RESEND_API_KEY` is correct
+- For development, codes are logged to console
+- See `app/api/auth/send-code/route.ts`
+
+### Authentication issues
+- Clear browser cookies
+- Check `JWT_SECRET` is set (32+ characters)
+- Verify cookie name consistency (`auth_token`)
+
+## 📸 Screenshots
+
+<!-- Add your screenshots here -->
+
+### Homepage
+![Homepage](screenshots/homepage.png)
+
+### Browse Listings
+![Browse](screenshots/browse.png)
+
+### AI Description Generation
+![AI Features](screenshots/ai-description.png)
+
+### Chat Interface
+![Chat](screenshots/chat.png)
+
+### Create Listing
+![Create Listing](screenshots/create-listing.png)
+
+## 🤝 Contributing
+
+This is a student project for UWaterloo. Contributions, issues, and feature requests are welcome!
+
+## 📝 License
+
+This project is for educational purposes. Created for the University of Waterloo community.
+
+## 🙏 Acknowledgments
+
+- **Anthropic** for Claude AI API
+- **Supabase** for backend infrastructure
+- **Vercel** for deployment platform
+- **Next.js** team for the amazing framework
+- **UWaterloo** community for inspiration
+
+## 📧 Contact
+
+For questions or feedback, please open an issue or contact the development team.
+
+---
+
+**Built with ❤️ for UWaterloo students**

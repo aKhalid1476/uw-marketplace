@@ -20,9 +20,12 @@ import type { ApiResponse, Message } from '@/types'
 // GET - Fetch messages for a conversation
 export async function GET(request: NextRequest) {
   try {
+    console.log('[CHAT-MESSAGES-GET] Request received')
+
     // Check authentication
     const authUser = await getCurrentUser()
     if (!authUser) {
+      console.log('[CHAT-MESSAGES-GET] Authentication failed')
       return NextResponse.json<ApiResponse>(
         {
           success: false,
@@ -37,7 +40,10 @@ export async function GET(request: NextRequest) {
     const listingId = searchParams.get('listing_id')
     const otherUserId = searchParams.get('other_user_id')
 
+    console.log('[CHAT-MESSAGES-GET] Fetching messages:', { userId, listingId, otherUserId })
+
     if (!listingId || !otherUserId) {
+      console.log('[CHAT-MESSAGES-GET] Missing parameters')
       return NextResponse.json<ApiResponse>(
         {
           success: false,

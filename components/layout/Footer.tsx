@@ -34,7 +34,7 @@ export function Footer() {
             <div className="flex items-center gap-2 text-sm text-gray-500">
               <span>Built with</span>
               <Heart className="h-4 w-4 text-red-500 fill-red-500" />
-              <span>by UWaterloo Students</span>
+              <span>by a fellow Warrior</span>
             </div>
           </div>
 
@@ -158,7 +158,7 @@ export function Footer() {
           <div className="mt-6 text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-100 to-pink-100 rounded-full">
               <span className="text-sm font-medium bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                Built for UWaterloo Hackathon 2024
+                Built for CalHacks 12.0
               </span>
             </div>
           </div>

@@ -25,9 +25,12 @@ const generateDescriptionSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('[AI-DESCRIPTION] Request received')
+
     // Check authentication
     const user = await getCurrentUser()
     if (!user) {
+      console.log('[AI-DESCRIPTION] Authentication failed')
       return NextResponse.json<ApiResponse>(
         {
           success: false,
@@ -37,15 +40,18 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    console.log('[AI-DESCRIPTION] User authenticated:', user.email)
+
     // Parse and validate request body
     const body = await request.json()
     const validation = generateDescriptionSchema.safeParse(body)
 
     if (!validation.success) {
+      console.log('[AI-DESCRIPTION] Validation failed:', validation.error.issues)
       return NextResponse.json<ApiResponse>(
         {
           success: false,
-          error: validation.error.errors[0]?.message || 'Invalid request data',
+          error: validation.error.issues[0]?.message || 'Invalid request data',
         },
         { status: 400 }
       )
@@ -55,6 +61,7 @@ export async function POST(request: NextRequest) {
 
     // Either imageUrl or imageData must be provided
     if (!imageUrl && !imageData) {
+      console.log('[AI-DESCRIPTION] No image provided')
       return NextResponse.json<ApiResponse>(
         {
           success: false,
@@ -68,9 +75,11 @@ export async function POST(request: NextRequest) {
     let result
 
     if (imageUrl) {
+      console.log('[AI-DESCRIPTION] Analyzing image from URL:', imageUrl.substring(0, 50))
       // Analyze image from URL
       result = await analyzeImage(imageUrl)
     } else if (imageData) {
+      console.log('[AI-DESCRIPTION] Analyzing base64 image data, length:', imageData.length)
       // Analyze image from base64 data
       result = await analyzeImageData(imageData, mediaType)
     } else {
@@ -84,6 +93,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!result.success || !result.description) {
+      console.log('[AI-DESCRIPTION] AI generation failed:', result.error)
       return NextResponse.json<ApiResponse>(
         {
           success: false,
@@ -92,6 +102,8 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       )
     }
+
+    console.log('[AI-DESCRIPTION] Description generated successfully, length:', result.description.length)
 
     // Return the generated description
     return NextResponse.json<ApiResponse<{ description: string }>>(

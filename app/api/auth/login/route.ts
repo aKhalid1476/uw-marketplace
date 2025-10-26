@@ -23,6 +23,7 @@ export async function POST(request: NextRequest) {
     const validationResult = loginSchema.safeParse(body)
 
     if (!validationResult.success) {
+      console.log('[LOGIN] Validation failed:', validationResult.error.flatten())
       return NextResponse.json(
         {
           success: false,
@@ -35,6 +36,7 @@ export async function POST(request: NextRequest) {
 
     const { email, password } = validationResult.data
     const normalizedEmail = email.toLowerCase().trim()
+    console.log('[LOGIN] Attempting login for:', normalizedEmail)
 
     const supabase = createServerClient()
 
@@ -46,6 +48,7 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (userError || !user) {
+      console.log('[LOGIN] User not found or error:', userError?.message)
       return NextResponse.json(
         { success: false, error: 'Invalid email or password' },
         { status: 401 }
@@ -53,23 +56,27 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify password
-    const isValidPassword = await verifyPassword(password, user.password_hash)
+    const isValidPassword = await verifyPassword(password, (user as any).password_hash)
 
     if (!isValidPassword) {
+      console.log('[LOGIN] Invalid password for:', normalizedEmail)
       return NextResponse.json(
         { success: false, error: 'Invalid email or password' },
         { status: 401 }
       )
     }
 
+    console.log('[LOGIN] Login successful for:', normalizedEmail)
+
     // Create auth token
+    const userData = user as any
     const token = await createAuthToken({
-      id: user.id,
-      email: user.email,
-      full_name: user.full_name,
-      profile_picture_url: user.profile_picture_url,
-      created_at: user.created_at,
-      updated_at: user.updated_at,
+      id: userData.id,
+      email: userData.email,
+      full_name: userData.full_name,
+      profile_picture_url: userData.profile_picture_url,
+      created_at: userData.created_at,
+      updated_at: userData.updated_at,
     })
 
     // Set cookie
@@ -84,11 +91,13 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      user: {
-        id: user.id,
-        email: user.email,
-        full_name: user.full_name,
-        profile_picture_url: user.profile_picture_url,
+      data: {
+        user: {
+          id: userData.id,
+          email: userData.email,
+          full_name: userData.full_name,
+          profile_picture_url: userData.profile_picture_url,
+        },
       },
     })
   } catch (error) {

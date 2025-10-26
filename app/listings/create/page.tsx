@@ -20,6 +20,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
+import { toast } from '@/components/ui/Toast'
 
 const categories = [
   'Electronics',
@@ -81,12 +82,15 @@ export default function CreateListingPage() {
 
   const handleGenerateDescription = async () => {
     if (!imageBase64) {
-      setError('Please upload an image first')
+      const errorMsg = 'Please upload an image first'
+      toast.error(errorMsg)
+      setError(errorMsg)
       return
     }
 
     setAiLoading(true)
     setError(null)
+    toast.loading('Generating description with AI...', { id: 'ai-description' })
 
     try {
       const response = await fetch('/api/ai/generate-description', {
@@ -98,16 +102,19 @@ export default function CreateListingPage() {
       })
 
       const data = await response.json()
-      console.log('AI Response:', data)
 
       if (data.success) {
         setDescription(data.data?.description || data.description)
+        toast.success('Description generated successfully!', { id: 'ai-description' })
       } else {
-        setError(data.error || 'Failed to generate description')
-        console.error('AI Error Response:', data)
+        const errorMsg = data.error || 'Failed to generate description'
+        toast.error(errorMsg, { id: 'ai-description' })
+        setError(errorMsg)
       }
     } catch (err) {
-      setError('An error occurred while generating description')
+      const errorMsg = 'An error occurred while generating description'
+      toast.error(errorMsg, { id: 'ai-description' })
+      setError(errorMsg)
       console.error('AI description error:', err)
     } finally {
       setAiLoading(false)
@@ -116,12 +123,22 @@ export default function CreateListingPage() {
 
   const handleSuggestPrice = async () => {
     if (!category) {
-      setError('Please select a category first')
+      const errorMsg = 'Please select a category first'
+      toast.error(errorMsg)
+      setError(errorMsg)
+      return
+    }
+
+    if (!title) {
+      const errorMsg = 'Please enter a title first'
+      toast.error(errorMsg)
+      setError(errorMsg)
       return
     }
 
     setAiLoading(true)
     setError(null)
+    toast.loading('Suggesting price with AI...', { id: 'ai-price' })
 
     try {
       const response = await fetch('/api/ai/suggest-price', {
@@ -138,13 +155,26 @@ export default function CreateListingPage() {
 
       const data = await response.json()
 
-      if (data.success && data.suggestedPrice) {
-        setPrice(data.suggestedPrice.toString())
+      if (data.success) {
+        // Try multiple possible field names for compatibility
+        const suggestedPrice = data.data?.suggestedPrice || data.data?.recommendedPrice || data.suggestedPrice
+        if (suggestedPrice) {
+          setPrice(suggestedPrice.toString())
+          toast.success(`Suggested price: $${suggestedPrice}`, { id: 'ai-price' })
+        } else {
+          const errorMsg = 'No price returned from AI'
+          toast.error(errorMsg, { id: 'ai-price' })
+          setError(errorMsg)
+        }
       } else {
-        setError(data.error || 'Failed to suggest price')
+        const errorMsg = data.error || 'Failed to suggest price'
+        toast.error(errorMsg, { id: 'ai-price' })
+        setError(errorMsg)
       }
     } catch (err) {
-      setError('An error occurred while suggesting price')
+      const errorMsg = 'An error occurred while suggesting price'
+      toast.error(errorMsg, { id: 'ai-price' })
+      setError(errorMsg)
       console.error('AI price error:', err)
     } finally {
       setAiLoading(false)
@@ -155,6 +185,7 @@ export default function CreateListingPage() {
     e.preventDefault()
     setError(null)
     setLoading(true)
+    toast.loading('Creating your listing...', { id: 'create-listing' })
 
     try {
       const response = await fetch('/api/listings', {
@@ -175,14 +206,24 @@ export default function CreateListingPage() {
 
       if (data.success) {
         setSuccess(true)
-        setTimeout(() => {
-          router.push(`/listing/${data.listing.id}`)
-        }, 1500)
+        toast.success('Listing created successfully!', { id: 'create-listing' })
+        // Handle both response formats: data.listing or data.data.listing
+        const listing = data.listing || data.data?.listing
+        if (listing?.id) {
+          router.push(`/listing/${listing.id}`)
+        } else {
+          console.error('No listing ID in response:', data)
+          router.push('/listings/my-listings')
+        }
       } else {
-        setError(data.error || 'Failed to create listing')
+        const errorMsg = data.error || 'Failed to create listing'
+        toast.error(errorMsg, { id: 'create-listing' })
+        setError(errorMsg)
       }
     } catch (err) {
-      setError('An error occurred. Please try again.')
+      const errorMsg = 'An error occurred. Please try again.'
+      toast.error(errorMsg, { id: 'create-listing' })
+      setError(errorMsg)
       console.error('Create listing error:', err)
     } finally {
       setLoading(false)

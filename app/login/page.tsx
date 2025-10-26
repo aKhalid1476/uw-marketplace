@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
+import { toast } from '@/components/ui/Toast'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -63,17 +64,20 @@ export default function LoginPage() {
       const data = await response.json()
 
       if (data.success) {
+        toast.success('Login successful! Redirecting...')
         setSuccess('Login successful! Redirecting...')
         const returnUrl = searchParams.get('return') || '/browse'
-        setTimeout(() => {
-          router.push(returnUrl)
-          router.refresh()
-        }, 1000)
+        router.push(returnUrl)
+        router.refresh()
       } else {
-        setError(data.error || 'Login failed')
+        const errorMsg = data.error || 'Login failed'
+        toast.error(errorMsg)
+        setError(errorMsg)
       }
     } catch (err) {
-      setError('An error occurred. Please try again.')
+      const errorMsg = 'An error occurred. Please try again.'
+      toast.error(errorMsg)
+      setError(errorMsg)
       console.error('Login error:', err)
     } finally {
       setLoading(false)
