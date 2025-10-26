@@ -71,7 +71,7 @@ export async function PUT(request: NextRequest) {
 
     const { data: updatedUser, error: updateError } = await supabase
       .from('users')
-      .update(updateData)
+      .update(updateData as never)
       .eq('id', userId)
       .select()
       .single()
@@ -84,15 +84,18 @@ export async function PUT(request: NextRequest) {
       )
     }
 
+    // Type assertion needed for Supabase TypeScript inference
+    const user = updatedUser as any
+
     return NextResponse.json({
       success: true,
       user: {
-        id: updatedUser.id,
-        email: updatedUser.email,
-        full_name: updatedUser.full_name,
-        profile_picture_url: updatedUser.profile_picture_url,
-        created_at: updatedUser.created_at,
-        updated_at: updatedUser.updated_at,
+        id: user.id,
+        email: user.email,
+        full_name: user.full_name,
+        profile_picture_url: user.profile_picture_url,
+        created_at: user.created_at,
+        updated_at: user.updated_at,
       },
     })
   } catch (error) {
